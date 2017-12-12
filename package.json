@@ -1,0 +1,30 @@
+{
+  "name": "ovh-iconlib-core",
+  "version": "0.1.0",
+  "description": "iconlib main module",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "jshint lib/**/*.js",
+    "pretest": "npm run lint && cp spec/resources/config.yml config.yml",
+    "test": "istanbul cover jasmine",
+    "posttest": "rm config.yml"
+  },
+  "author": "OVH",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "ovh-iconlib-provider-svg-cleaner-svgo": "0.1.0",
+    "cz-ovh-commit": "^1.0.0",
+    "istanbul": "0.4.5",
+    "jasmine": "2.8.0",
+    "jshint": "2.9.5"
+  },
+  "dependencies": {
+    "ovh-iconlib-provider-svg-cleaner": "0.1.0",
+    "rduk-errors": "1.2.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-ovh-commit"
+    }
+  }
+}

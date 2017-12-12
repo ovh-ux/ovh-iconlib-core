@@ -1,0 +1,11 @@
+---
+svg-cleaner:
+  default: svgo
+  providers:
+    -
+      name: svgo
+      type: ovh-iconlib-provider-svg-cleaner-svgo
+      plugins:
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/agressiveCollapseGroups
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/removeClipPaths
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/cleanStyles
