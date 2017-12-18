@@ -28,35 +28,29 @@
 
 'use strict';
 
-const BaseCleanerProvider = require('ovh-iconlib-provider-svg-cleaner/lib/base');
-const BaseStorageProvider = require('ovh-iconlib-provider-storage/lib/base');
+const util = require('util');
+const Base = require('ovh-iconlib-provider-storage/lib/base');
 
-const defaultCleaner = require('ovh-iconlib-provider-svg-cleaner');
-const defaultStorage = require('ovh-iconlib-provider-storage');
+let Provider = function Provider(config) {
+    Provider.super_.call(this, config);
+};
 
-function SvgService(cleaner, storage) {
-    if (cleaner && cleaner instanceof BaseCleanerProvider !== true) {
-        throw new Error('Invalid Type for cleaner argument');
+util.inherits(Provider, Base);
+
+Provider.prototype.upload = function(stream, options) {
+    if (options.name === 'error.txt') {
+        return Promise.reject(new Error('mock error'));
     }
 
-    if (storage && storage instanceof BaseStorageProvider !== true) {
-        throw new Error('Invalid Type for storage argument');
+    return Promise.resolve({});
+};
+
+Provider.prototype.remove = function(filename) {
+    if (filename === 'error.txt') {
+        return Promise.reject(new Error('mock error'));
     }
 
-    this.cleaner = cleaner || defaultCleaner.getInstance();
-    this.storage = storage || defaultStorage.getInstance();
-}
-
-SvgService.prototype.clean = function(svg) {
-    return this.cleaner.clean(svg);
+    return Promise.resolve(true);
 };
 
-SvgService.prototype.store = function(stream, filename) {
-    return this.storage.upload(stream, {name: filename});
-};
-
-SvgService.prototype.remove = function(filename) {
-    return this.storage.remove(filename);
-};
-
-module.exports = SvgService;
+module.exports = Provider;
