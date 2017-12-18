@@ -64,9 +64,9 @@ describe('service', function() {
 
             describe('with valid svg', function() {
                 it('should success', function(done) {
-                    service.clean('test')
+                    service.clean(SVG_DIRTY)
                         .then(result => {
-                            expect(result).toBe('clean');
+                            expect(result).toBe(SVG_PRISTINE);
                             done();
                         });
                 });
