@@ -1,11 +1,22 @@
 ---
+connections:
+  -
+    name: test
+    authUrl: https://auth.url.test
+    username: user
+    password: p@ssw0rd
+    region: FR1
+    container: container-test
 svg-cleaner:
-  default: svgo
+  default: svgmock
   providers:
     -
-      name: svgo
-      type: ovh-iconlib-provider-svg-cleaner-svgo
-      plugins:
-        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/agressiveCollapseGroups
-        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/removeClipPaths
-        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/cleanStyles
+      name: svgmock
+      type: ~/spec/helpers/mockSvgCleaner
+storage:
+  default: storagemock
+  providers:
+    -
+      name: storagemock
+      type: ~/spec/helpers/mockStorage
+      connection: test
