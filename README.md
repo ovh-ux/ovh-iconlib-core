@@ -11,12 +11,47 @@
 npm i --save ovh-iconlib-core
 ```
 
+Note: __Implementations of [ovh-iconlib-provider-storage](https://github.com/ovh-ux/ovh-iconlib-provider-storage#readme) and [ovh-iconlib-provider-svg-cleaner](https://github.com/ovh-ux/ovh-iconlib-provider-svg-cleaner#readme) must be added as dependencies to your app.__
+
+## Configuration
+
+```yml
+# config.yml
+connections:
+  -
+    name: iconlib-store
+    authUrl: ${OSS_AUTH_URL} # process.env.OSS_AUTH_URL
+    username: ${OSS_USERNAME} # process.env.OSS_USERNAME
+    password: ${OSS_PASSWORD} # process.env.OSS_PASSWORD
+    region: ${OSS_REGION} # process.env.OSS_REGION
+    container: ${OSS_CONTAINER} # process.env.OSS_CONTAINER
+svg-cleaner:
+  default: svgo
+  providers:
+    -
+      name: svgo
+      type: ovh-iconlib-provider-svg-cleaner-svgo
+      plugins:
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/agressiveCollapseGroups
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/removeClipPaths
+        - ovh-iconlib-provider-svg-cleaner-svgo/lib/plugins/cleanStyles
+        - svgo/plugins/removeScriptElement
+        - svgo/plugins/inlineStyles
+        - svgo/plugins/convertStyleToAttrs
+storage:
+   default: oss
+   providers:
+     -
+       name: oss
+       type: ovh-iconlib-provider-storage-oss
+       connection: iconlib-store
+```
+
 ## Usage
 
 ```js
 const iconlib = require('ovh-iconlib-core');
 ```
-
 
 ```js
 let service = new iconlib.services.SvgService();
@@ -40,6 +75,8 @@ ___
             - [`Promise` list()](#iconlib_services_svgservice_list)
             - [`Promise` store(`Stream` stream , `string` filename)](#iconlib_services_svgservice_store)
             - [`Promise` remove(`string` filename)](#iconlib_services_svgservice_remove)
+        - [PngService.](#iconlib_services_pngservice)
+            - [`Promise` generateFromSvg(`string` svgPath, `Array` dim)](#iconlib_services_pngservice_generatefromsvg)
 
 <a id="iconlib_services"></a>
 
@@ -125,3 +162,18 @@ service.remove(file, 'dummy.txt')
         console.log(removed);
     });
 ```
+
+<a id="iconlib_services_pngservice"></a>
+
+### SvgService
+
+<a id="iconlib_services_pngservice_generatefromsvg"></a>
+
+#### generateFromSvg(string svgPath, Array dim = null)
+
+_generate a png file from a svg_
+
+> - Parameters:
+>     - `string` svgPath: path of the svg
+>     - `Array` dim: dimension of the final png ( -> [width, height])
+> - Return a `Promise<Buffer>`
