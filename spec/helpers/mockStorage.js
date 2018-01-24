@@ -31,13 +31,13 @@
 const util = require('util');
 const Base = require('ovh-iconlib-provider-storage/lib/base');
 
-let Provider = function Provider(config) {
-    Provider.super_.call(this, config);
+let MockStorageProvider = function MockStorageProvider(config) {
+    MockStorageProvider.super_.call(this, config);
 };
 
-util.inherits(Provider, Base);
+util.inherits(MockStorageProvider, Base);
 
-Provider.prototype.upload = function(stream, options) {
+MockStorageProvider.prototype.upload = function(stream, options) {
     if (options.name === 'error.txt') {
         return Promise.reject(new Error('mock error'));
     }
@@ -45,7 +45,19 @@ Provider.prototype.upload = function(stream, options) {
     return Promise.resolve({});
 };
 
-Provider.prototype.remove = function(filename) {
+MockStorageProvider.prototype.list = function(path, skip, take) {
+    skip = skip || 0;
+    take = take || 10;
+    return Promise.resolve([{
+        name: 'test.svg',
+        container: 'my-test',
+        client: {
+            _serviceUrl: 'https://url'
+        }
+    }].slice(skip, take + skip));
+};
+
+MockStorageProvider.prototype.remove = function(filename) {
     if (filename === 'error.txt') {
         return Promise.reject(new Error('mock error'));
     }
@@ -53,4 +65,4 @@ Provider.prototype.remove = function(filename) {
     return Promise.resolve(true);
 };
 
-module.exports = Provider;
+module.exports = MockStorageProvider;

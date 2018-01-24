@@ -31,15 +31,15 @@
 const util = require('util');
 const Base = require('ovh-iconlib-provider-svg-cleaner/lib/base');
 
-let Provider = function Provider(config) {
-    Provider.super_.call(this, config);
+let MockSvgCleanerProvider = function MockSvgCleanerProvider(config) {
+    MockSvgCleanerProvider.super_.call(this, config);
 };
 
-util.inherits(Provider, Base);
+util.inherits(MockSvgCleanerProvider, Base);
 
-Provider.prototype.initialize = function() {};
+MockSvgCleanerProvider.prototype.initialize = function() {};
 
-Provider.prototype.clean = function(svg) {
+MockSvgCleanerProvider.prototype.clean = function(svg) {
     if (!svg) {
         return Promise.resolve('');
     }
@@ -47,4 +47,4 @@ Provider.prototype.clean = function(svg) {
     return Promise.resolve('clean');
 };
 
-module.exports = Provider;
+module.exports = MockSvgCleanerProvider;

@@ -1,6 +1,6 @@
 'use strict';
 
-const errors = require('rduk-errors');
+const errors = require('@rduk/errors');
 const services = require('../../lib/services');
 
 const CleanerProvider = require('../helpers/mockSvgCleaner');
@@ -17,8 +17,8 @@ describe('service', function() {
         
         beforeEach(function() {
             service = new services.SvgService(
-                new CleanerProvider({name: 'cleaner'}),
-                new StorageProvider({name: 'storage'})
+                new CleanerProvider({name: 'cleaner', type: CleanerProvider}),
+                new StorageProvider({name: 'storage', type: StorageProvider})
             );
         });
 
@@ -48,6 +48,31 @@ describe('service', function() {
                 });
             });
             
+        });
+
+        describe('method assert, when called,', function() {
+
+            describe('with invalid viewbox', function() {
+                it('should throw an error', function(done) {
+                    service.assert('<svg viewBox="0 0 10 15"></svg>')
+                        .catch(function(error) {
+                            expect(error).toBeDefined();
+                            done();
+                        });
+                });
+            });
+
+
+            describe('with valid viewbox', function() {
+                it('should success', function(done) {
+                    service.assert('<svg viewBox="0 0 10 10"></svg>')
+                        .then(function(result) {
+                            expect(result).toBeDefined();
+                            done();
+                        });
+                });
+            });
+
         });
 
         describe('method clean, when called,', function() {
@@ -93,6 +118,30 @@ describe('service', function() {
                         expect(service.store).toHaveBeenCalled();
                         expect(service.store).toHaveBeenCalledWith('stream', 'error.txt');
                         expect(error).toBeDefined();
+                        done();
+                    });
+            });
+        });
+
+        describe('method list', function() {
+            it('should success', function(done) {
+                spyOn(service, 'get').and.returnValue(Promise.resolve([{name: 'test.svg'}]));
+                service.list()
+                    .then(function(result) {
+                        expect(service.get).toHaveBeenCalled();
+                        expect(service.get).toHaveBeenCalledWith('https://url/test.svg');
+                        expect(result && result.length > 0).toBe(true);
+                        expect(result[0].name).toBe('test.svg');
+                        done();
+                    });
+            });
+        });
+
+        describe('method get', function() {
+            it('should success', function(done) {
+                service.get('http://example.org/')
+                    .then(function(result) {
+                        expect(result).toBeDefined();
                         done();
                     });
             });

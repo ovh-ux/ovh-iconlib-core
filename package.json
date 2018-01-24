@@ -10,23 +10,27 @@
   "scripts": {
     "lint": "jshint lib/**/*.js",
     "pretest": "npm run lint && cp spec/resources/config.yml config.yml",
-    "test": "istanbul cover jasmine",
-    "posttest": "rm config.yml && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test": "istanbul cover jasmine --report cobertura",
+    "posttest": "rm config.yml",
+    "report": "istanbul report",
+    "coveralls": "npm run report && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "OVH",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@rduk/errors": "^1.3.0",
     "coveralls": "3.0.0",
     "cz-ovh-commit": "^1.0.0",
     "istanbul": "0.4.5",
     "jasmine": "2.8.0",
     "jshint": "2.9.5",
-    "ovh-iconlib-provider-svg-cleaner-svgo": "^0.1.0"
+    "ovh-iconlib-provider-svg-cleaner-svgo": "^0.2.0"
   },
   "dependencies": {
-    "ovh-iconlib-provider-storage": "^0.1.0",
-    "ovh-iconlib-provider-svg-cleaner": "^0.1.0",
-    "rduk-errors": "1.2.3"
+    "@rduk/logger": "^0.1.5",
+    "ovh-iconlib-provider-storage": "^0.3.0",
+    "ovh-iconlib-provider-svg-cleaner": "^0.1.2",
+    "request-promise": "^4.2.2"
   },
   "config": {
     "commitizen": {
