@@ -1,6 +1,6 @@
 {
   "name": "ovh-iconlib-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "iconlib main module",
   "main": "lib/index.js",
   "repository": {
@@ -28,9 +28,13 @@
   },
   "dependencies": {
     "@rduk/logger": "^0.1.5",
+    "archiver": "2.1.1",
     "ovh-iconlib-provider-storage": "^0.3.0",
     "ovh-iconlib-provider-svg-cleaner": "^0.1.2",
-    "request-promise": "^4.2.2"
+    "request": "2.83.0",
+    "request-promise": "4.2.2",
+    "stream-to-array": "2.3.0",
+    "svg2png": "4.1.1"
   },
   "config": {
     "commitizen": {
