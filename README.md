@@ -175,5 +175,13 @@ _generate a png file from a svg_
 
 > - Parameters:
 >     - `string` svgPath: path of the svg
->     - `Array` dim: dimension of the final png ( -> [width, height])
+>     - `Array` dim: dimension of the final png. If null, get dimension from svg ( ```[width, height]``` )
 > - Return a `Promise<Buffer>`
+
+```js
+let service = new iconlib.services.PngService();
+service.generateFromSvg('dummy.svg')
+    .then(png => {
+        ...
+    });
+```
